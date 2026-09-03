@@ -2,7 +2,7 @@ import java.lang.Math;
 
 public class AreaCalculator {
     public double calculate(double radius) {
-        return Math.round(Math.PI*radius*radius*100.0)/100.0;
+       return Math.round(Math.PI*radius*radius*100.0)/100.0;
     }
 
     public double calculate(double width, double height) {

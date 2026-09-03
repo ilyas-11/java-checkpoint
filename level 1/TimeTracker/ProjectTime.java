@@ -7,24 +7,21 @@ public class ProjectTime {
     private String endTime;
     private float hoursLogged;
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    //private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 
     public ProjectTime(String start, String end){
         this.startTime=start;
         this.endTime=end;
-        updateHoursLogged();
+        
     };
 
     public void setStartTime(String start){
         this.startTime=start;
-        updateHoursLogged();
 
     };
     public void setEndTime(String end){
         this.endTime =end;
-        updateHoursLogged();
-
     };
 
     public String getStartTime(){
@@ -35,36 +32,36 @@ public class ProjectTime {
     };
 
     public String getHoursLogged(){
-        if(hoursLogged==-1){
-            return "-1";
-        }
-        if (hoursLogged<120){
-            return (int)(hoursLogged)+" m";
-        }
-        if (hoursLogged<120*60){
-            return (int)(hoursLogged/60)+" h";
-        }
-        if (hoursLogged<120*24*60){
-            return (int)(hoursLogged/(24*60))+" d";
-        }
-        return (int)(hoursLogged/(30*24*60))+" mo";
-    };
+        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-    private void updateHoursLogged(){
         try{
             Date start = DATE_FORMAT.parse(startTime);
             Date end = DATE_FORMAT.parse(endTime);
+            long time=end.getTime() - start.getTime();
 
-            long differ=end.getTime()-start.getTime();
-
-            if(differ<0){
-                this.hoursLogged=-1;
-                return;
+            if (time<0){
+                return "-1";
             }
-            hoursLogged=differ/(1000f*60);
-        }catch(ParseException e){
-            hoursLogged=-1;
+            int t = (int)(time/60000);
+            if (t<120){
+                return (int)(t)+" m";
 
+            }else if(t < 120*60){
+                return (int)(t/(60))+" h";
+            
+            }else if(t < 120*60*24){
+                return (int)(t/(60*24))+" d";
+            
+            }else{
+                return (int)(t/(60*24*30))+" mo";
+            
+            }
+
+
+        }catch(Exception e){
+            return "-1";
         }
-    }
+    };
+
+    
 }
